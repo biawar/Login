@@ -7,30 +7,28 @@ import '../bloc/Home_State.dart';
 
 class HomeWidget extends StatefulWidget{
   @override
-  _HomeWidgetState createState() => _HomeWidgetState();
+  HomeWidgetState createState() => HomeWidgetState();
 }
 
-class _HomeWidgetState extends State<HomeWidget>{
-  
-  HomeBloc bloc;
-  //Stream<String> verifica;
-  //var filter = (x) => true;
+class HomeWidgetState extends State<HomeWidget>{
 
-  Widget _submitButton(){
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: MaterialButton(
-        color: Colors.pink,
-        child: Text("Entrar"),
-        textColor: Colors.white,
-        shape: StadiumBorder(),
-        clipBehavior: Clip.antiAlias,
-        //onPressed: ()
-      ),
-    );
-  }
+  final HomeBloc bloc = HomeBloc();
 
-  Widget _emailField(HomeBloc bloc){
+   Widget _submitButton(bool isEverythingValid){
+     return Padding(
+       padding: const EdgeInsets.all(20.0),
+       child: RaisedButton(
+         color: Colors.blue,
+         child: Text("Entrar"),
+         textColor: Colors.white,
+         shape: StadiumBorder(),
+         clipBehavior: Clip.antiAlias,
+         onPressed: () => isEverythingValid ? bloc.dispatch(LoginButtonPressed(email: bloc.currentState.email, password: bloc.currentState.password ) ) : null,//CircularProgressIndicator() //(isEverythingValid ? CircularProgressIndicator(): null),
+       )
+        );
+   }
+
+  Widget _emailField(HomeBloc bloc, bool validemail){
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: TextField(
@@ -40,57 +38,49 @@ class _HomeWidgetState extends State<HomeWidget>{
           border: OutlineInputBorder(),
           hintText: "example@email.com",
           labelText: "Email",
+          errorText: validemail ? null: 'Email Inválido',
         ),
-        onChanged: (String email) => bloc.dispatch(IsEmailChanged(email)),
+        onChanged:(String email) => bloc.dispatch(IsEmailChanged(email:email)),
       ),
     );
   }
 
-Widget _passwordField(HomeBloc bloc){
+  
+Widget _passwordField(HomeBloc bloc, bool validpassword){
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: TextField(
         obscureText: true,
-        onChanged: (String password) => bloc.dispatch(IsPasswordChanged(password)),
+        //onChanged: (String password) => bloc.dispatch(IsPasswordChanged(password)),
         decoration: InputDecoration(
           border: OutlineInputBorder(),
           hintText: "password",
           labelText: "Password",
+          errorText: validpassword ? null: 'Senha Inválida'
         ),
+         onChanged:(String password) => bloc.dispatch(IsPasswordChanged(password:password)),
       ),
     );
   }
 
   Widget build (BuildContext context){
-    
-   // filter = (x) => x % 5 == 0;
-    //verifica = countStream(100).where((x) => filter(x)).map((x) => transfString(x));
-     print(bloc.currentState);
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Login Screen"),
       ),
-      body: ListView(
-        children: <Widget>[
-          _emailField(bloc),
-          _passwordField(bloc),
-          _submitButton(),
-        ],
-      ),
-    );
+      body: BlocBuilder(
+              bloc: bloc,
+              builder: (BuildContext context, Home_State state) {
+              return ListView(
+              children: <Widget>[
+              _emailField(bloc,state.isemailvalid),
+              _passwordField(bloc,state.ispasswordvalid),
+              _submitButton(bloc.currentState.iseverythingvalid),
+              ],
+              );
+              },
+              ),
+              );
   }
-
-  // Stream<int> countStream(int max) async*{
-  //   for(var i = 1; i<max; i++){
-  //    	await new Future.delayed(const Duration(seconds : 1));
-  //     yield i;
-  //   }
-	// }
-
-  // String transfString(int i){
-  //   return "$i - Eh multiplo de 5.";   
-  // }
-
 
 }
