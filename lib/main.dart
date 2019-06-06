@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:login/home/HomeWidget.dart';
+import 'package:login/home/DashboardWidget.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,7 +12,13 @@ class MyApp extends StatelessWidget{
     theme: ThemeData(
       primarySwatch: Colors.blue,
     ),
-    home: HomeWidget(),
+    
+    routes: <String, WidgetBuilder>{
+      '/':(BuildContext context)=> new HomeWidget(),
+      '/DashboardWidget': (BuildContext context)=> new DashboardWidget(),
+    } ,
+    initialRoute: '/',
+    //home: HomeWidget(),
     );
   }
 }

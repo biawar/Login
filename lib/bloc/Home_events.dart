@@ -20,6 +20,7 @@ class IsEmailChanged extends Home_events{
    @override
    String toString() => 'IsPasswordChanged { password: $password}';
  }
+ 
 
 class LoginButtonPressed extends Home_events {
   final String email;

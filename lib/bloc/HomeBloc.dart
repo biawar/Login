@@ -5,6 +5,7 @@
  import 'package:bloc/bloc.dart';
  import 'package:flutter_bloc/flutter_bloc.dart';
  import 'dart:async';
+ import 'dart:math';
  
 
  class HomeBloc extends Bloc<Home_events, Home_State> {
@@ -29,21 +30,24 @@
       }
 
       if (event is LoginButtonPressed) {
-        print(currentState.iseverythingvalid);
-        yield LoginLoading();
-        await new Future.delayed(const Duration(seconds : 2));
+        //print(currentState.iseverythingvalid);
         if(currentState.iseverythingvalid){
-        print("oi");
-          try {
-          //await new Future.delayed(const Duration(seconds : 2));
-          //currentState.iseverythingvalid;
-         // yield InitState();
-          } catch (error) {
-            yield LoginFailure(loginerror: 'Erro!');
-          }
+           yield currentState.copyWith(isloginsubmited: true,);
+           print("submited");
+           //await new Future.delayed(const Duration(seconds : 6));
+          //  print(servidorFake());
         }
       }
+
     }
+
+  Stream<int> servidorFake()async*{
+    var random = new Random();
+    int num;
+    num =  random.nextInt(10);
+    await Future.delayed(const Duration(seconds : 2));
+    yield num;
+  }
 
   bool validateEmail(String email){
     if(email.contains('@'))

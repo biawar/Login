@@ -4,6 +4,7 @@ import 'package:rxdart/rxdart.dart';
 import '../bloc/HomeBloc.dart';
 import '../bloc/Home_events.dart';
 import '../bloc/Home_State.dart';
+import 'dart:math';
 
 class HomeWidget extends StatefulWidget{
   @override
@@ -13,6 +14,8 @@ class HomeWidget extends StatefulWidget{
 class HomeWidgetState extends State<HomeWidget>{
 
   final HomeBloc bloc = HomeBloc();
+  final Stream<int> numero;
+  
 
    Widget _submitButton(bool isEverythingValid){
      return Padding(
@@ -23,7 +26,15 @@ class HomeWidgetState extends State<HomeWidget>{
          textColor: Colors.white,
          shape: StadiumBorder(),
          clipBehavior: Clip.antiAlias,
-         onPressed: () => isEverythingValid ? bloc.dispatch(LoginButtonPressed(email: bloc.currentState.email, password: bloc.currentState.password ) ) : null,//CircularProgressIndicator() //(isEverythingValid ? CircularProgressIndicator(): null),
+         onPressed: () async { 
+          if(isEverythingValid){ 
+            _loading();
+            await Future.delayed(Duration(seconds:1));
+            bloc.dispatch(LoginButtonPressed(email: bloc.currentState.email, password: bloc.currentState.password ));
+            }
+          else 
+          null; 
+          }
        )
         );
    }
@@ -63,24 +74,64 @@ Widget _passwordField(HomeBloc bloc, bool validpassword){
     );
   }
 
+
+Widget _loading(){
+    return Column(
+      children: <Widget>[
+        Padding(padding: const EdgeInsets.all(8.0)),
+        CircularProgressIndicator(),
+      ],
+    );
+  }
+
+
   Widget build (BuildContext context){
     return Scaffold(
       appBar: AppBar(
         title: Text("Login Screen"),
       ),
-      body: BlocBuilder(
-              bloc: bloc,
-              builder: (BuildContext context, Home_State state) {
-              return ListView(
-              children: <Widget>[
-              _emailField(bloc,state.isemailvalid),
-              _passwordField(bloc,state.ispasswordvalid),
-              _submitButton(bloc.currentState.iseverythingvalid),
-              ],
-              );
-              },
-              ),
-              );
+      body:BlocListener(
+        bloc: bloc,
+        listener: (context, state) { 
+          if (state.isloginsubmited) {
+            bloc.servidorFake().listen((x){
+              print(x);
+              numero = x;
+            if(numero%2==0){
+              print("Success");
+              Navigator.pushNamed( context, '/DashboardWidget' );             
+            }
+            else {
+              print("Fail");
+              //bloc.currentState.copyWith(isloginsubmited: false);
+              print(bloc.currentState.isloginsubmited);
+            }
+            });
+          }
+        }, 
+        child:BlocBuilder(
+        bloc: bloc,
+        builder: (BuildContext context, Home_State state) {
+        return ListView(
+        children: <Widget>[
+        _emailField(bloc,state.isemailvalid),
+        _passwordField(bloc,state.ispasswordvalid),
+        _submitButton(bloc.currentState.iseverythingvalid),
+        //_loading(bloc.currentState.isloginsubmited),
+        ],
+
+        );
+        },
+        ),
+        ),
+        );
+  }
+
+  @override
+  void dispose(){
+    bloc.dispose();
+    super.dispose();
   }
 
 }
+

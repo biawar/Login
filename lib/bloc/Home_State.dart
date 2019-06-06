@@ -7,7 +7,7 @@ final String password;
 final String email;
 final bool isemailvalid;
 final bool ispasswordvalid;
-final String loginerror;
+final bool isloginsubmited;
 
 bool get iseverythingvalid => isemailvalid && ispasswordvalid;
 
@@ -16,37 +16,42 @@ Home_State({
   this.email,
   this.isemailvalid,
   this.ispasswordvalid,
-  this.loginerror,
-}):super ([password, email, isemailvalid, ispasswordvalid,loginerror]);
+  this.isloginsubmited,
+}):super ([password, email, isemailvalid, ispasswordvalid,isloginsubmited]);
 
 Home_State copyWith ({
   String password,
   String email,
   bool isemailvalid,
   bool ispasswordvalid,
-  String loginerror}){
+  bool isloginsubmited}){
 return Home_State(
   password: password ?? this.password,
   email: email ?? this.email,
   isemailvalid: isemailvalid ?? this.isemailvalid,
   ispasswordvalid: ispasswordvalid ?? this.ispasswordvalid,
-  loginerror: loginerror ?? this.loginerror);
+  isloginsubmited: isloginsubmited ?? this.isloginsubmited);
   }
 }
 
-class LoginLoading extends Home_State {
+class Success extends Home_State {
   @override
-  String toString() => 'LoginLoading';
+  String toString() => 'Success: Usuario e senha validos';
 }
 
-class LoginFailure extends Home_State {
-  final String loginerror;
+class Fail extends Home_State{
+  @override
+  String toString() => 'Fail: Usuario e senha invalidos';
+}
+
+//class LoginFailure extends Home_State {
+  //final String loginerror;
  
-  LoginFailure({@required this.loginerror}) : super(loginerror: loginerror);
+  //LoginFailure({@required this.loginerror}) : super(loginerror: loginerror);
 
-  @override
-  String toString() => 'LoginFailure { error: $loginerror }';
-}
+  //@override
+  //String toString() => 'LoginFailure { error: $loginerror }';
+//}
 
 class InitState extends Home_State{
   InitState():super(
@@ -54,6 +59,6 @@ class InitState extends Home_State{
     email: "",
     isemailvalid: true,
     ispasswordvalid: true,
-    loginerror: "",
+    isloginsubmited: false,
   );
 }
