@@ -31,6 +31,11 @@ class DetailPageState extends State<DetailPage>{
         child: ListTile(
           title: Text('Mesa ${widget.post.data["Mesa"]}'),
           subtitle: Text(widget.post.data["Pedido"]),
+           trailing: IconButton(
+                                icon: Icon(Icons.edit),
+                                onPressed:() {
+                                  Navigator.pushNamed(context, '/EditWidget');
+                                }),
         ),
       ),
       ),
