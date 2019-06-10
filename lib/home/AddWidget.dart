@@ -5,7 +5,7 @@ import '../bloc/HomeBloc.dart';
 import '../bloc/Home_events.dart';
 import '../bloc/Home_State.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:flutter_just_toast/flutter_just_toast.dart';
 
 class AddWidget extends StatefulWidget{
   @override
@@ -76,9 +76,12 @@ class AddWidgetState extends State<AddWidget>{
         ],  );
   }
 
+   
+
 
     Widget build(BuildContext context){
       Size size = MediaQuery.of(context).size;
+      final snackBar = SnackBar(content: Text('Pedido Feito!'));
        return Scaffold(
       appBar: AppBar(
         title: Text("Criar um Pedido"),
@@ -89,8 +92,13 @@ class AddWidgetState extends State<AddWidget>{
         listener: (context, state) async { 
 
             if(state is Success) {
-                  Padding(padding: const EdgeInsets.all(50.0));
-                  CircularProgressIndicator();          
+                 Scaffold.of(context).showSnackBar(SnackBar(
+                 content: Text('Pedido Feito!'),
+                  duration: Duration(seconds: 3)));
+                  await Future.delayed(Duration(seconds:2));
+                  Navigator.pushNamed( context, '/ReadWidget' );
+                  //Padding(padding: const EdgeInsets.all(50.0));
+                  //CircularProgressIndicator();          
               }
             if (state is Fail) {
                 print(state);
@@ -110,10 +118,12 @@ class AddWidgetState extends State<AddWidget>{
           style: TextStyle(fontWeight: FontWeight.bold,
           color: Colors.redAccent.withOpacity(0.8)),
           )): Padding(padding: EdgeInsets.all(10.0),),
-          state is Success ? Center(child:Text('Pedido Criado!',
-          style: TextStyle(fontWeight: FontWeight.bold,
-          color: Colors.grey.withOpacity(0.8)),
-          )): Padding(padding: EdgeInsets.all(10.0),),
+          //state is Success ? snackBar() : Padding(padding: EdgeInsets.all(10.0),),
+          
+          // Center(child:Text('Pedido Criado!',
+          // style: TextStyle(fontWeight: FontWeight.bold,
+          // color: Colors.grey.withOpacity(0.8)),
+          //Padding(padding: EdgeInsets.all(10.0),),
 
         ],
 
