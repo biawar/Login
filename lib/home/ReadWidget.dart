@@ -24,9 +24,8 @@ class ReadWidgetState extends State<ReadWidget>{
 
   Future getPosts() async {
 
-    var firestore = Firestore.instance;
 
-    QuerySnapshot qn = await firestore.collection("meusPedidos").getDocuments();
+    QuerySnapshot qn = await Firestore.instance.collection("meusPedidos").getDocuments();
 
     return qn.documents;
 
@@ -38,6 +37,7 @@ class ReadWidgetState extends State<ReadWidget>{
     });
   }
 
+ 
   // void deletePost(snapshot) async {
   //   await snapshot.remove().then((_) {
   //     print('Transaction  committed.');
@@ -69,19 +69,19 @@ class ReadWidgetState extends State<ReadWidget>{
         title: Text("Lista de Pedidos"),
         //automaticallyImplyLeading: false,
       ),
-      body:FutureBuilder(
-        future: getPosts(),
+      body:StreamBuilder(
+        stream: Firestore.instance.collection("meusPedidos").snapshots(),
         builder: (_, snapshot){
-          if(snapshot.connectionState == ConnectionState.waiting){
+          if(!snapshot.hasData){
             return Center(
                 child:CircularProgressIndicator(),
             );
           } else{
 
             return ListView.builder(
-              itemCount: snapshot.data.length,
+              itemCount: snapshot.data.documents.length,
               itemBuilder: (_,index){
-
+                DocumentSnapshot ds = snapshot.data.documents[index];
                 return new Container( 
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.grey),
@@ -89,14 +89,16 @@ class ReadWidgetState extends State<ReadWidget>{
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           child:ListTile(
-                          title: Text('Mesa ${snapshot.data[index].data["Mesa"]}',
+                          title: Text('Mesa ${ds["Mesa"]}',
                           style: TextStyle(fontWeight: FontWeight.bold,
                           color: Colors.grey[850].withOpacity(0.8))),
                           onTap: () => navigateToDetail(snapshot.data[index]),
                           trailing: IconButton(
                                 icon: Icon(Icons.delete),
                                 onPressed:() {
-                                  delete(snapshot.data[index]);
+                                   Firestore.instance.collection("meusPedidos").document(ds.documentID).delete();
+                                  //delete(snapshot.data[index]);
+                                  //Navigator.pushNamed( context, '/ReadWidget' );
                                   //snapshot.data.documents[index]
                                 }),
                           ));
