@@ -87,6 +87,22 @@ class SendAddButtonPressed extends Home_events {
       'SendAddButtonPressed { titleText: $titleText, titleText: $descriptionText }';
 }
 
+
+class SendEditButtonPressed extends Home_events {
+  final String titleText;
+  final String descriptionText;
+
+  SendEditButtonPressed({
+    @required this.titleText,
+    @required this.descriptionText,
+  
+  }) : super([titleText, descriptionText]);
+
+   @override
+  String toString() =>
+      'SendEditButtonPressed { titleText: $titleText, titleText: $descriptionText }';
+}
+
 class ReadButtonPressed extends Home_events {
   @override
   String toString() =>

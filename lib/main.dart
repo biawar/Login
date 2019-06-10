@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:login/home/DetailPage.dart';
+import 'package:login/home/EditWidget.dart';
 import 'package:login/home/HomeWidget.dart';
 import 'package:login/home/DashboardWidget.dart';
 import 'package:login/home/createACountWidget.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget{
       '/AddWidget': (BuildContext context)=> new AddWidget(),
       '/ReadWidget': (BuildContext context)=> new ReadWidget(),
       '/DetailPage': (BuildContext context)=> new DetailPage(),
+      '/EditWidget': (BuildContext context)=> new EditWidget(),
     } ,
     initialRoute: '/',
     //home: HomeWidget(),

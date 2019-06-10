@@ -65,38 +65,6 @@ class DashboardWidgetState extends State<DashboardWidget>{
        ));
     }
 
-     Widget updateButton(){
-      return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: RaisedButton(
-        color: Colors.lightBlue,
-        child: Text("Alterar Pedido"),
-        textColor: Colors.white,
-        //shape: StadiumBorder(),
-        clipBehavior: Clip.antiAlias,
-        onPressed: () { 
-          //bloc.dispatch(LogoutButtonPressed());
-          //Navigator.pushNamed( context, '/' );
-           }
-       ));
-    }
-
-    Widget deleteButton(){
-      return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: RaisedButton(
-        color: Colors.lightBlue,
-        child: Text("Deletar Pedido"),
-        textColor: Colors.white,
-        //shape: StadiumBorder(),
-        clipBehavior: Clip.antiAlias,
-        onPressed: () { 
-          //bloc.dispatch(LogoutButtonPressed());
-          //Navigator.pushNamed( context, '/' );
-           }
-       ));
-    }
-
     Widget build(BuildContext context){
       Size size = MediaQuery.of(context).size;
        return Scaffold(
@@ -111,8 +79,6 @@ class DashboardWidgetState extends State<DashboardWidget>{
         children: <Widget>[
           addButton(),
           readButton(),
-          updateButton(),
-          deleteButton(),
           logout(),
 
         ],

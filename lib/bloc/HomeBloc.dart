@@ -119,6 +119,25 @@
         }
       }
 
+    if (event is ReadButtonPressed){
+        yield InitState();
+      }
+
+      if (event is SendEditButtonPressed){
+        yield currentState.copyWith(isloading: true);
+        await Future.delayed(Duration(seconds:2));
+        if(currentState.istexttouchedandvalid){
+        try{
+            print("Pedido alterado");
+              collectionReference.add({"Mesa": currentState.titleText, "Pedido": currentState.descriptionText});
+              //Navigator.pushNamed( context, '/DashboardWidget' );
+              yield Success();
+            }catch(e){
+              print (e.message);
+              yield Fail();
+            }
+        }
+      }
 
 
     }

@@ -20,6 +20,8 @@ class ReadWidgetState extends State<ReadWidget>{
 
   HomeBloc bloc;
 
+
+
   Future getPosts() async {
 
     var firestore = Firestore.instance;
@@ -30,6 +32,22 @@ class ReadWidgetState extends State<ReadWidget>{
 
   }
 
+  Future delete(snapshot) async{
+    await Firestore.instance.runTransaction((Transaction myTransaction) async {
+    await myTransaction.delete(snapshot.reference);
+    });
+  }
+
+  //  Future delete(DocumentSnapshot post) async {
+
+  //   Firestore.instance.runTransaction(
+  //     (Transaction transaction) async{
+  //       print("Delete!");
+  //       await transaction.delete(documentReference);
+  //     }
+  //   );
+
+  //}
 
   navigateToDetail(DocumentSnapshot post){
 
@@ -71,8 +89,11 @@ class ReadWidgetState extends State<ReadWidget>{
                           onTap: () => navigateToDetail(snapshot.data[index]),
                           trailing: IconButton(
                                 icon: Icon(Icons.delete),
-                                onPressed:() => Navigator.pushNamed( context, '/' )),
-                          onLongPress:() => Navigator.pushNamed( context, '/AddWidget' )),
+                                onPressed:() {
+                                  delete(snapshot.data[index]);
+                                  //snapshot.data.documents[index]
+                                }), //snapshot.data[index].transaction.delete()),
+                          onLongPress:() => Navigator.pushNamed(context, '/EditWidget')),
                           //IconButton(
                             //icon: Icon(Icons.edit),
                           //onPressed: null,),
