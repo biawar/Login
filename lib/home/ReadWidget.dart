@@ -67,7 +67,7 @@ class ReadWidgetState extends State<ReadWidget>{
        return Scaffold(
       appBar: AppBar(
         title: Text("Lista de Pedidos"),
-        //automaticallyImplyLeading: false,
+        automaticallyImplyLeading: false,
       ),
       body:StreamBuilder(
         stream: Firestore.instance.collection("meusPedidos").snapshots(),
@@ -92,7 +92,7 @@ class ReadWidgetState extends State<ReadWidget>{
                           title: Text('Mesa ${ds["Mesa"]}',
                           style: TextStyle(fontWeight: FontWeight.bold,
                           color: Colors.grey[850].withOpacity(0.8))),
-                          onTap: () => navigateToDetail(snapshot.data[index]),
+                          onTap: () => navigateToDetail(snapshot.data.documents[index]),
                           trailing: IconButton(
                                 icon: Icon(Icons.delete),
                                 onPressed:() {
@@ -112,7 +112,14 @@ class ReadWidgetState extends State<ReadWidget>{
                     //IconButton(icon: Icon(Icons.delete),
                     //onPressed: null,),
               }
-              }),);
+              }),
+              floatingActionButton: new FloatingActionButton(
+                onPressed: (){
+                  Navigator.pushNamed( context, '/AddWidget' );
+                },
+                child: new Icon(Icons.add),
+              ),
+              );
             }
 
           }
