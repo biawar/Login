@@ -87,7 +87,7 @@
         if(currentState.iseverythintouchedandvalid){
           try{
             print('oi');
-              user= await FirebaseAuth.instance.createUserWithEmailAndPassword(email: currentState.email, 
+              user = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: currentState.email, 
               password: currentState.password);
               //Navigator.pushNamed( context, '/DashboardWidget' );
               yield Success();
