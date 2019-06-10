@@ -32,11 +32,17 @@ class ReadWidgetState extends State<ReadWidget>{
 
   }
 
-  Future delete(snapshot) async{
+  void delete(snapshot) async{
     await Firestore.instance.runTransaction((Transaction myTransaction) async {
     await myTransaction.delete(snapshot.reference);
     });
   }
+
+  // void deletePost(snapshot) async {
+  //   await snapshot.remove().then((_) {
+  //     print('Transaction  committed.');
+  //   });
+  // }
 
   //  Future delete(DocumentSnapshot post) async {
 
@@ -92,15 +98,8 @@ class ReadWidgetState extends State<ReadWidget>{
                                 onPressed:() {
                                   delete(snapshot.data[index]);
                                   //snapshot.data.documents[index]
-                                }), //snapshot.data[index].transaction.delete()),
-                          onLongPress:() => Navigator.pushNamed(context, '/EditWidget')),
-                          //IconButton(
-                            //icon: Icon(Icons.edit),
-                          //onPressed: null,),
-                          //IconButton(
-                          //icon: Icon(Icons.delete),
-                          //onPressed: null,),
-                          );
+                                }),
+                          ));
               }
             ); 
                   //ListTile(

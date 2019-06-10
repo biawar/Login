@@ -14,29 +14,23 @@ class DashboardWidget extends StatefulWidget{
 
 class DashboardWidgetState extends State<DashboardWidget>{
 
-  
+
+   Future getPostsLength() async {
+
+    var firestore = Firestore.instance;
+
+    QuerySnapshot qn = await firestore.collection("meusPedidos").getDocuments();
+
+    return qn.documents.length;
+
+  }
 
   final HomeBloc bloc = HomeBloc();
 
-    Widget logout(){
-       return Padding(
-       padding: const EdgeInsets.all(30.0),
-       child: RaisedButton(
-         color: Colors.red,
-         child: Text("Logout"),
-         textColor: Colors.white,
-         shape: StadiumBorder(),
-         clipBehavior: Clip.antiAlias,
-         onPressed: () { 
-          bloc.dispatch(LogoutButtonPressed());
-          Navigator.pushNamed( context, '/' );
-           }
-       ));
-    }
 
     Widget addButton(){
       return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.only(left:10.0, right: 10.0, top: 30.0, bottom: 10.0),
       child: RaisedButton(
         color: Colors.lightBlue,
         child: Text("Criar Pedido"),
@@ -51,7 +45,7 @@ class DashboardWidgetState extends State<DashboardWidget>{
 
      Widget readButton(){
       return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.only(left:10.0, right: 10.0, bottom: 10.0),
       child: RaisedButton(
         color: Colors.lightBlue,
         child: Text("Ver Pedidos"),
@@ -64,26 +58,42 @@ class DashboardWidgetState extends State<DashboardWidget>{
            }
        ));
     }
-
-    Widget build(BuildContext context){
+    Widget build(BuildContext context) {
       Size size = MediaQuery.of(context).size;
        return Scaffold(
       appBar: AppBar(
         title: Text("Dashboard"),
         automaticallyImplyLeading: false,
+        actions: <Widget>[
+            // action button
+            IconButton(
+              icon: Icon(Icons.exit_to_app),
+              onPressed: () {
+                 bloc.dispatch(LogoutButtonPressed());
+                 Navigator.pushNamed( context, '/' );
+              },
+            ),]
       ),
-      body:BlocBuilder(
-        bloc: bloc,
-        builder: (BuildContext context, Home_State state) {
+      body:FutureBuilder(
+         future: getPostsLength(),
+        builder: (_, snapshot){
+
+          if(snapshot.connectionState == ConnectionState.waiting){
+            return Center(
+                child:CircularProgressIndicator(),
+            );
+          } else{
         return ListView(
         children: <Widget>[
+          Text('TOTAL DE PEDIDOS: ${snapshot.data}'),
           addButton(),
           readButton(),
-          logout(),
+          //logout(),
 
         ],
 
         );
+          }
         },
         ),
       );

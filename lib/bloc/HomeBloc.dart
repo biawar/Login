@@ -58,6 +58,7 @@
         //print('iseverythingvalid: ${currentState.iseverythingvalid}');
         yield currentState.copyWith(isloading: true);
         await Future.delayed(Duration(seconds:3)); 
+
         if(currentState.iseverythintouchedandvalid){
           try{
               user= await FirebaseAuth.instance.signInWithEmailAndPassword(email: currentState.email, password: currentState.password);
@@ -149,6 +150,8 @@
   //   //await Future.delayed(const Duration(seconds : 2));
   //   return num;
   // }
+
+
 
   bool validateDescriptionText(String descriptionText){
     if(descriptionText != null)
