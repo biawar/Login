@@ -21,21 +21,20 @@ class ReadWidgetState extends State<ReadWidget>{
   HomeBloc bloc;
 
 
+  // Future getPosts() async {
 
-  Future getPosts() async {
 
+  //   QuerySnapshot qn = await Firestore.instance.collection("meusPedidos").getDocuments();
 
-    QuerySnapshot qn = await Firestore.instance.collection("meusPedidos").getDocuments();
+  //   return qn.documents;
 
-    return qn.documents;
+  // }
 
-  }
-
-  void delete(snapshot) async{
-    await Firestore.instance.runTransaction((Transaction myTransaction) async {
-    await myTransaction.delete(snapshot.reference);
-    });
-  }
+  // void delete(snapshot) async{
+  //   await Firestore.instance.runTransaction((Transaction myTransaction) async {
+  //   await myTransaction.delete(snapshot.reference);
+  //   });
+  // }
 
  
   // void deletePost(snapshot) async {

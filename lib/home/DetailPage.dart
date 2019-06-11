@@ -7,6 +7,7 @@ import '../bloc/HomeBloc.dart';
 import '../bloc/Home_events.dart';
 import '../bloc/Home_State.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:login/home/EditWidget.dart';
 
 
 
@@ -20,6 +21,14 @@ class DetailPage extends StatefulWidget{
 }
 
 class DetailPageState extends State<DetailPage>{
+
+
+  navigateToEdit(DocumentSnapshot post){
+
+    Navigator.push(context, MaterialPageRoute(builder: (context) => EditWidget(post: post,)));
+
+  }
+
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -34,7 +43,7 @@ class DetailPageState extends State<DetailPage>{
            trailing: IconButton(
                                 icon: Icon(Icons.edit),
                                 onPressed:() {
-                                  Navigator.pushNamed(context, '/EditWidget');
+                                  navigateToEdit(widget.post);
                                 }),
         ),
       ),

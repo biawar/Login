@@ -130,7 +130,7 @@
         if(currentState.istexttouchedandvalid){
         try{
             print("Pedido alterado");
-              collectionReference.add({"Mesa": currentState.titleText, "Pedido": currentState.descriptionText});
+              //collectionReference.updateData({"Mesa": currentState.titleText, "Pedido": currentState.descriptionText});
               //Navigator.pushNamed( context, '/DashboardWidget' );
               yield Success();
             }catch(e){

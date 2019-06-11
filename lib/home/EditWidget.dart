@@ -8,6 +8,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class EditWidget extends StatefulWidget{
+
+  final DocumentSnapshot post;
+  EditWidget({this.post});
+
   @override
   EditWidgetState createState() => EditWidgetState();
 }
@@ -26,9 +30,16 @@ class EditWidgetState extends State<EditWidget>{
         textColor: Colors.white,
         //shape: StadiumBorder(),
         clipBehavior: Clip.antiAlias,
-        onPressed: () { 
-          bloc.dispatch(SendEditButtonPressed(titleText: bloc.currentState.titleText, descriptionText: bloc.currentState.descriptionText ));
-           }
+        onPressed: () {   
+       bloc.dispatch(SendEditButtonPressed(titleText: bloc.currentState.titleText, descriptionText: bloc.currentState.descriptionText ));
+          try{
+            Firestore.instance.collection("meusPedidos").document(widget.post.documentID).updateData({"Mesa": bloc.currentState.titleText, "Pedido": bloc.currentState.descriptionText});
+            print("Agora foi!!!!");
+          }catch(e){
+              print (e.message);
+            }
+          Navigator.pushNamed( context, '/ReadWidget' );
+         }
        ));
     }
 
