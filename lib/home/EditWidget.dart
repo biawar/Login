@@ -51,7 +51,7 @@ class EditWidgetState extends State<EditWidget>{
           //onChanged: bloc.,
           decoration: InputDecoration(
             border: OutlineInputBorder(),
-            hintText: "Digite a Mesa",
+            hintText:  "${widget.post.data["Mesa"]}",
             labelText: "Mesa",
             //icon: Icon(Icons.email) ,
             errorText: titlevalidtext ? null: 'Digite algo',
@@ -69,7 +69,7 @@ class EditWidgetState extends State<EditWidget>{
           //onChanged: (String password) => bloc.dispatch(IsPasswordChanged(password)),
           decoration: InputDecoration(
             border: OutlineInputBorder(),
-            hintText: "Digite o pedido",
+            hintText:  "${widget.post.data["Pedido"]}",
             labelText: "Pedido",
             //icon: Icon(Icons.lock) ,
             errorText: descriptionvalidtext ? null: 'Digite algo'
@@ -92,7 +92,7 @@ class EditWidgetState extends State<EditWidget>{
       Size size = MediaQuery.of(context).size;
        return Scaffold(
       appBar: AppBar(
-        title: Text(" Pedido"),
+        title: Text("Pedido"),
         //automaticallyImplyLeading: false,
       ),
      body:BlocListener(
@@ -100,8 +100,11 @@ class EditWidgetState extends State<EditWidget>{
         listener: (context, state) async { 
 
             if(state is Success) {
-                  Padding(padding: const EdgeInsets.all(50.0));
-                  CircularProgressIndicator();          
+                  Scaffold.of(context).showSnackBar(SnackBar(
+                  content: Text('Pedido Editado!'),
+                  duration: Duration(seconds: 3)));
+                  await Future.delayed(Duration(seconds:3));
+                  Navigator.pushNamed( context, '/ReadWidget' );         
               }
             if (state is Fail) {
                 print(state);
@@ -120,10 +123,6 @@ class EditWidgetState extends State<EditWidget>{
           state is Fail ? Center(child:Text('Algo errado não esta certo',
           style: TextStyle(fontWeight: FontWeight.bold,
           color: Colors.redAccent.withOpacity(0.8)),
-          )): Padding(padding: EdgeInsets.all(10.0),),
-          state is Success ? Center(child:Text('Pedido Alterado!',
-          style: TextStyle(fontWeight: FontWeight.bold,
-          color: Colors.grey.withOpacity(0.8)),
           )): Padding(padding: EdgeInsets.all(10.0),),
 
         ],

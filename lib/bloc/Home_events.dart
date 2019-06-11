@@ -116,3 +116,8 @@ class LogoutButtonPressed extends Home_events {
       'LogoutButtonPressed';
 }
 
+class IsEditIconButtonPressed extends Home_events {
+   @override
+  String toString() =>
+      'IsEditIconButtonPressed';
+}

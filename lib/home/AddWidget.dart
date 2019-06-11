@@ -80,8 +80,8 @@ class AddWidgetState extends State<AddWidget>{
 
 
     Widget build(BuildContext context){
-      Size size = MediaQuery.of(context).size;
-      final snackBar = SnackBar(content: Text('Pedido Feito!'));
+      // Size size = MediaQuery.of(context).size;
+      // final snackBar = SnackBar(content: Text('Pedido Feito!'));
        return Scaffold(
       appBar: AppBar(
         title: Text("Criar um Pedido"),

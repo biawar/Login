@@ -22,6 +22,7 @@ class DetailPage extends StatefulWidget{
 
 class DetailPageState extends State<DetailPage>{
 
+  final HomeBloc bloc = HomeBloc();
 
   navigateToEdit(DocumentSnapshot post){
 
@@ -43,6 +44,7 @@ class DetailPageState extends State<DetailPage>{
            trailing: IconButton(
                                 icon: Icon(Icons.edit),
                                 onPressed:() {
+                                  bloc.dispatch(IsEditIconButtonPressed());
                                   navigateToEdit(widget.post);
                                 }),
         ),

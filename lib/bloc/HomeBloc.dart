@@ -81,6 +81,9 @@
         yield InitState();
        }
 
+      if (event is IsEditIconButtonPressed){
+        yield InitState();
+      }
       
        if (event is ButtonCreatePressed){
          yield currentState.copyWith(isloading: true);
@@ -126,12 +129,10 @@
 
       if (event is SendEditButtonPressed){
         yield currentState.copyWith(isloading: true);
-        await Future.delayed(Duration(seconds:2));
+        //await Future.delayed(Duration(seconds:2));
         if(currentState.istexttouchedandvalid){
         try{
             print("Pedido alterado");
-              //collectionReference.updateData({"Mesa": currentState.titleText, "Pedido": currentState.descriptionText});
-              //Navigator.pushNamed( context, '/DashboardWidget' );
               yield Success();
             }catch(e){
               print (e.message);
